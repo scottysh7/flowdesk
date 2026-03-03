@@ -1,0 +1,88 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  padding: 24px;
+  width: 400px;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+  animation: slideUp 0.2s ease;
+}
+
+@keyframes slideUp { from { transform: translateY(12px); opacity: 0 } to { transform: translateY(0); opacity: 1 } }
+
+.title { font-size: 16px; font-weight: 700; margin-bottom: 18px; letter-spacing: -0.3px; }
+
+.field { margin-bottom: 14px; }
+
+.label {
+  display: block;
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.field input, .field select {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 14px;
+  padding: 9px 12px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.field input:focus, .field select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.cancel {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 13px;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  transition: all 0.12s;
+}
+
+.cancel:hover { color: var(--text); }
+
+.confirm {
+  background: var(--accent);
+  border: none;
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: var(--radius-sm);
+  transition: opacity 0.12s;
+}
+
+.confirm:hover { opacity: 0.85; }
