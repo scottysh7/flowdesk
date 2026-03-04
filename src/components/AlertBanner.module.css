@@ -1,0 +1,47 @@
+.banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 24px;
+  font-size: 13px;
+  font-weight: 500;
+  flex-shrink: 0;
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-100%); opacity: 0 }
+  to { transform: translateY(0); opacity: 1 }
+}
+
+.urgent {
+  background: rgba(247, 106, 106, 0.1);
+  border-bottom: 1px solid rgba(247, 106, 106, 0.3);
+  color: #f7a0a0;
+}
+
+.stale {
+  background: rgba(247, 209, 106, 0.08);
+  border-bottom: 1px solid rgba(247, 209, 106, 0.25);
+  color: #f7d16a;
+}
+
+.icon { font-size: 14px; flex-shrink: 0; }
+
+.messages { display: flex; gap: 16px; flex: 1; flex-wrap: wrap; }
+
+.msg::before { content: '— '; opacity: 0.5; }
+
+.dismiss {
+  background: none;
+  border: none;
+  color: inherit;
+  opacity: 0.4;
+  font-size: 13px;
+  padding: 2px 4px;
+  border-radius: 3px;
+  transition: opacity 0.12s;
+  flex-shrink: 0;
+}
+
+.dismiss:hover { opacity: 1; }

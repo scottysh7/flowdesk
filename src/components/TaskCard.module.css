@@ -32,6 +32,7 @@
 .done { opacity: 0.4; }
 .done .title { text-decoration: line-through; color: var(--text-muted); }
 
+/* ── CHECKBOX ── */
 .check {
   width: 18px; height: 18px;
   border-radius: 5px;
@@ -49,6 +50,7 @@
 .checked { background: var(--accent) !important; border-color: var(--accent) !important; }
 .checked::after { content: '✓'; color: white; font-size: 11px; font-weight: 700; }
 
+/* ── BODY ── */
 .body { flex: 1; min-width: 0; }
 
 .title {
@@ -59,30 +61,7 @@
   cursor: default;
 }
 
-.editRow { display: flex; gap: 6px; margin-bottom: 6px; }
-
-.editInput {
-  flex: 1;
-  background: var(--surface3);
-  border: 1px solid var(--accent);
-  border-radius: var(--radius-sm);
-  color: var(--text);
-  font-size: 14px;
-  padding: 4px 8px;
-  outline: none;
-}
-
-.editSelect {
-  background: var(--surface3);
-  border: 1px solid var(--border2);
-  border-radius: var(--radius-sm);
-  color: var(--text-muted);
-  font-size: 11px;
-  padding: 4px 8px;
-  outline: none;
-  font-family: 'DM Mono', monospace;
-}
-
+/* ── META ── */
 .meta {
   display: flex;
   align-items: center;
@@ -112,6 +91,14 @@
 .medium { background: rgba(247,209,106,0.15); color: var(--yellow); }
 .low { background: rgba(82,201,126,0.15); color: var(--green); }
 
+.dueBadge {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 3px;
+  font-weight: 500;
+}
+
 .projectTag {
   font-family: 'DM Mono', monospace;
   font-size: 10px;
@@ -120,6 +107,31 @@
   font-weight: 500;
 }
 
+.notesToggle {
+  background: none;
+  border: none;
+  font-size: 12px;
+  opacity: 0.4;
+  padding: 0 2px;
+  transition: opacity 0.12s;
+  line-height: 1;
+}
+
+.notesToggle:hover, .notesOpen { opacity: 1; }
+
+.notesPreview {
+  margin-top: 8px;
+  padding: 8px 10px;
+  background: var(--surface3);
+  border-left: 2px solid var(--border2);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+/* ── ACTIONS ── */
 .actions {
   display: flex;
   gap: 4px;
@@ -144,5 +156,116 @@
 .actionBtn:hover { background: var(--surface2); color: var(--text); border-color: var(--border2); }
 .deleteBtn:hover { background: rgba(247,106,106,0.1) !important; color: var(--red) !important; border-color: var(--red) !important; }
 
+/* ── SUBTASK ── */
 .subtaskWrapper { margin-left: 24px; }
 .subtaskWrapper .card { background: var(--bg); border-style: dashed; }
+
+/* ── EDIT MODE ── */
+.editing { border-color: var(--accent) !important; box-shadow: 0 0 0 3px var(--accent-glow); }
+.editing::before { background: var(--accent) !important; }
+
+.editBlock { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+
+.editInput {
+  width: 100%;
+  background: var(--surface3);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 10px;
+  outline: none;
+}
+
+.editMeta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+
+.editSelect {
+  background: var(--surface3);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  padding: 4px 8px;
+  outline: none;
+  transition: border-color 0.12s;
+}
+
+.editSelect:focus { border-color: var(--accent); color: var(--text); }
+
+.dueDateWrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--surface3);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  padding: 3px 8px;
+}
+
+.dueDateIcon { font-size: 11px; }
+
+.editDate {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  outline: none;
+  width: 110px;
+  cursor: pointer;
+}
+
+.editDate::-webkit-calendar-picker-indicator {
+  filter: invert(0.5);
+  cursor: pointer;
+}
+
+.editTextarea {
+  width: 100%;
+  background: var(--surface3);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 13px;
+  padding: 7px 10px;
+  outline: none;
+  resize: vertical;
+  line-height: 1.5;
+  transition: border-color 0.12s;
+}
+
+.editTextarea:focus { border-color: var(--accent); color: var(--text); }
+.editTextarea::placeholder { color: var(--text-dim); }
+
+.editActions { display: flex; gap: 6px; align-items: center; }
+
+.editSave {
+  background: var(--accent);
+  border: none;
+  color: white;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: var(--radius-sm);
+  transition: opacity 0.12s;
+}
+
+.editSave:hover { opacity: 0.85; }
+
+.editCancel {
+  background: var(--surface3);
+  border: 1px solid var(--border2);
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: var(--radius-sm);
+  transition: all 0.12s;
+}
+
+.editCancel:hover { color: var(--red); border-color: var(--red); }
