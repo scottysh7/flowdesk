@@ -440,3 +440,43 @@
 }
 
 .qaDate::-webkit-calendar-picker-indicator { filter: invert(0.5); cursor: pointer; }
+
+/* ── USER / SIGNOUT ── */
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 5px 10px;
+}
+
+.userEmail {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--text-dim);
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.btnSignOut {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 14px;
+  padding: 0 2px;
+  cursor: pointer;
+  transition: color 0.12s;
+  line-height: 1;
+}
+
+.btnSignOut:hover { color: var(--red); }

@@ -16,8 +16,8 @@ function useTime() {
   return time
 }
 
-export default function App() {
-  const { tasks, projects, loading, error, addTask, toggleTask, updateTask, deleteTask, archiveDone, addProject } = useFlowDesk()
+export default function App({ user, onSignOut }) {
+  const { tasks, projects, loading, error, addTask, toggleTask, updateTask, deleteTask, archiveDone, addProject } = useFlowDesk(user)
   const time = useTime()
 
   // Quick add
@@ -146,7 +146,13 @@ export default function App() {
           <button className={`${s.tabBtn} ${view === 'all' ? s.tabActive : ''}`} onClick={() => setView('all')}>Toutes les tâches</button>
           <button className={`${s.tabBtn} ${view === 'projects' ? s.tabActive : ''}`} onClick={() => setView('projects')}>Par projet</button>
         </div>
-        <div className={s.clock}>{timeStr}</div>
+        <div className={s.headerRight}>
+          <div className={s.clock}>{timeStr}</div>
+          <div className={s.userInfo}>
+            <span className={s.userEmail}>{user.email}</span>
+            <button className={s.btnSignOut} onClick={onSignOut} title="Se déconnecter">↪</button>
+          </div>
+        </div>
       </header>
 
       {/* QUICK ADD */}
