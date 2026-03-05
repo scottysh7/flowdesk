@@ -1,7 +1,20 @@
 import React from 'react'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { useAuth } from './hooks/useAuth'
 import App from './App.jsx'
-import AuthPage from './pages/AuthPage.jsx'
+import LandingPage from './pages/LandingPage.jsx'
+import LoginPage from './pages/LoginPage.jsx'
+import SignupPage from './pages/SignupPage.jsx'
+
+function ProtectedRoute({ user, children }) {
+  if (!user) return <Navigate to="/login" replace />
+  return children
+}
+
+function PublicRoute({ user, children }) {
+  if (user) return <Navigate to="/app" replace />
+  return children
+}
 
 export default function Root() {
   const { user, loading, signIn, signUp, signOut } = useAuth()
@@ -17,7 +30,32 @@ export default function Root() {
     </div>
   )
 
-  if (!user) return <AuthPage onSignIn={signIn} onSignUp={signUp} />
-
-  return <App user={user} onSignOut={signOut} />
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={
+          <PublicRoute user={user}>
+            <LandingPage />
+          </PublicRoute>
+        } />
+        <Route path="/login" element={
+          <PublicRoute user={user}>
+            <LoginPage onSignIn={signIn} />
+          </PublicRoute>
+        } />
+        <Route path="/signup" element={
+          <PublicRoute user={user}>
+            <SignupPage onSignUp={signUp} />
+          </PublicRoute>
+        } />
+        <Route path="/app" element={
+          <ProtectedRoute user={user}>
+            <App user={user} onSignOut={signOut} />
+          </ProtectedRoute>
+        } />
+        {/* Fallback */}
+        <Route path="*" element={<Navigate to={user ? '/app' : '/'} replace />} />
+      </Routes>
+    </BrowserRouter>
+  )
 }
