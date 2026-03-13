@@ -3,6 +3,8 @@ import { useFlowDesk } from './hooks/useFlowDesk'
 import TaskCard from './components/TaskCard'
 import Modal, { ModalField, ModalActions } from './components/Modal'
 import AlertBanner from './components/AlertBanner'
+import RecurrencePicker from './components/RecurrencePicker'
+import CalendarView from './components/CalendarView'
 import s from './App.module.css'
 
 const PROJECT_COLORS = ['#7c6af7','#f76a6a','#52c97e','#f7a26a','#6ab4f7','#f76af2','#f7d16a','#6af7e8']
@@ -25,9 +27,10 @@ export default function App({ user, onSignOut }) {
   const [quickPriority, setQuickPriority] = useState('none')
   const [quickProject, setQuickProject] = useState('')
   const [quickDueDate, setQuickDueDate] = useState('')
+  const [quickRecurrence, setQuickRecurrence] = useState({ type: 'none', value: null })
 
   // View
-  const [view, setView] = useState('all')
+  const [view, setView] = useState('all')  // 'all' | 'projects' | 'calendar'
   const [navFilter, setNavFilter] = useState('all')
   const [statusFilter, setStatusFilter] = useState('all')
 
@@ -46,10 +49,11 @@ export default function App({ user, onSignOut }) {
   // ── HANDLERS ──
   const handleAddTask = async () => {
     if (!quickTitle.trim()) return
-    await addTask({ title: quickTitle.trim(), priority: quickPriority, projectId: quickProject || null, dueDate: quickDueDate || null })
+    await addTask({ title: quickTitle.trim(), priority: quickPriority, projectId: quickProject || null, dueDate: quickDueDate || null, recurrenceType: quickRecurrence.type, recurrenceValue: quickRecurrence.value })
     setQuickTitle('')
     setQuickPriority('none')
     setQuickDueDate('')
+    setQuickRecurrence({ type: 'none', value: null })
     quickInputRef.current?.focus()
   }
 
@@ -145,6 +149,7 @@ export default function App({ user, onSignOut }) {
         <div className={s.headerTabs}>
           <button className={`${s.tabBtn} ${view === 'all' ? s.tabActive : ''}`} onClick={() => setView('all')}>Toutes les tâches</button>
           <button className={`${s.tabBtn} ${view === 'projects' ? s.tabActive : ''}`} onClick={() => setView('projects')}>Par projet</button>
+          <button className={`${s.tabBtn} ${view === 'calendar' ? s.tabActive : ''}`} onClick={() => setView('calendar')}>Calendrier</button>
         </div>
         <div className={s.headerRight}>
           <div className={s.clock}>{timeStr}</div>
@@ -188,6 +193,7 @@ export default function App({ user, onSignOut }) {
                 title="Date d'échéance"
               />
             </div>
+            <RecurrencePicker value={quickRecurrence} onChange={setQuickRecurrence} />
             <div className={s.sep} />
             <button className={s.btnAdd} onClick={handleAddTask}>Ajouter</button>
           </div>
@@ -263,7 +269,7 @@ export default function App({ user, onSignOut }) {
             )}
           </div>
 
-          {view === 'all' ? (
+          {(view === 'all' || view === 'projects') && view === 'all' ? (
             <>
               {activeFiltered.length === 0 && doneFiltered.length === 0 && (
                 <div className={s.empty}>
@@ -331,6 +337,15 @@ export default function App({ user, onSignOut }) {
                 ))
               })()}
             </div>
+          )}
+
+          {view === 'calendar' && (
+            <CalendarView
+              tasks={liveTasks}
+              projects={projects}
+              onToggle={toggleTask}
+              onTaskClick={() => {}}
+            />
           )}
         </main>
       </div>

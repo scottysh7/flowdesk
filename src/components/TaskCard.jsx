@@ -1,3 +1,5 @@
+import RecurrencePicker from './RecurrencePicker'
+import { recurrenceLabel } from '../lib/recurrence'
 import React, { useState, useRef, useEffect } from 'react'
 import styles from './TaskCard.module.css'
 
@@ -41,6 +43,7 @@ export default function TaskCard({ task, subtasks = [], project, projects = [], 
   const [editTitle, setEditTitle] = useState(task.title)
   const [editPriority, setEditPriority] = useState(task.priority)
   const [editProject, setEditProject] = useState(task.project_id || '')
+  const [editRecurrence, setEditRecurrence] = useState({ type: task.recurrence_type || 'none', value: task.recurrence_value || null })
   const [editDueDate, setEditDueDate] = useState(task.due_date || '')
   const [editNotes, setEditNotes] = useState(task.notes || '')
   const inputRef = useRef()
@@ -54,6 +57,7 @@ export default function TaskCard({ task, subtasks = [], project, projects = [], 
       setEditProject(task.project_id || '')
       setEditDueDate(task.due_date || '')
       setEditNotes(task.notes || '')
+      setEditRecurrence({ type: task.recurrence_type || 'none', value: task.recurrence_value || null })
     }
   }, [task, editing])
 
@@ -63,6 +67,7 @@ export default function TaskCard({ task, subtasks = [], project, projects = [], 
     setEditProject(task.project_id || '')
     setEditDueDate(task.due_date || '')
     setEditNotes(task.notes || '')
+    setEditRecurrence({ type: task.recurrence_type || 'none', value: task.recurrence_value || null })
     setEditing(true)
     setNotesOpen(false)
     setTimeout(() => inputRef.current?.focus(), 30)
@@ -75,6 +80,7 @@ export default function TaskCard({ task, subtasks = [], project, projects = [], 
     setEditProject(task.project_id || '')
     setEditDueDate(task.due_date || '')
     setEditNotes(task.notes || '')
+    setEditRecurrence({ type: task.recurrence_type || 'none', value: task.recurrence_value || null })
   }
 
   const saveEditing = () => {
@@ -167,6 +173,7 @@ export default function TaskCard({ task, subtasks = [], project, projects = [], 
               />
               {/* Row 4: actions */}
               <div className={styles.editActions}>
+                {!compact && <RecurrencePicker value={editRecurrence} onChange={setEditRecurrence} />}
                 <button className={styles.editSave} onMouseDown={e => { e.preventDefault(); saveEditing() }}>✓ Sauvegarder</button>
                 <button className={styles.editCancel} onMouseDown={e => { e.preventDefault(); cancelEditing() }}>Annuler</button>
               </div>
@@ -202,6 +209,9 @@ export default function TaskCard({ task, subtasks = [], project, projects = [], 
                   </span>
                 )}
 
+                {task.recurrence_type && task.recurrence_type !== 'none' && (
+                  <span className={styles.metaTag} title={recurrenceLabel(task.recurrence_type, task.recurrence_value)}>🔁</span>
+                )}
                 {subtasks.length > 0 && (
                   <span className={styles.metaTag}>📎 {doneSubtasks}/{subtasks.length}</span>
                 )}
